@@ -1,0 +1,8 @@
+{
+  "job": "<job>",
+  "worker": {
+    "name": "<name>",
+    "amount": 0.0
+  },
+  "raw": "<raw>"
+}

@@ -1,0 +1,19 @@
+{
+  "job": "<job>",
+  "deliverable": "<deliverable>",
+  "worker": {
+    "escrow_address": "<escrow_address>",
+    "escrow_redeem_script": "<escrow_redeem_script>",
+    "payment_address": "<payment_address>",
+    "payment_inputs": "<payment_inputs>",
+    "amount": 0.0
+  },
+  "mediator": {
+    "escrow_address": "<escrow_address>",
+    "escrow_redeem_script": "<escrow_redeem_script>",
+    "payment_address": "<payment_address>",
+    "payment_inputs": "<payment_inputs>",
+    "amount": 0.0
+  },
+  "raw": "<raw>"
+}

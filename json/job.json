@@ -1,0 +1,21 @@
+{
+  "id": "<id>",
+  "name": "<name>",
+  "description": "<description>",
+  "tags": [
+    "<tag>",
+    "<tag>",
+    "<tag>"
+  ],
+  "expires_at": "<expires_at>",
+  "creator": {
+    "name": "<name>",
+    "contact": "<contact>"
+  },
+  "mediator": {
+    "name": "<name>",
+    "contact": "<contact>",
+    "fee": 0.0
+  },
+  "raw": "<raw>"
+}

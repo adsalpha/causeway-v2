@@ -1,0 +1,11 @@
+{
+  "job": "<job>",
+  "description": "<description>",
+  "worker": {
+    "name": "<name>",
+    "contact": "<contact>",
+    "public_key": "<public_key>",
+    "amount": 0.0
+  },
+  "raw": "<raw>"
+}

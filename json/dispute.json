@@ -1,0 +1,6 @@
+{
+  "job": "<job>",
+  "started_by": "<creator/worker>",
+  "description": "<description>",
+  "raw": "<raw>"
+}
