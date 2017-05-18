@@ -296,12 +296,12 @@ def users():
         users_to_return.append(user)
     return query_result(users_to_return, 'users')
 
-@app.route('/users/exists/<string:user_msin>')
-def does_user_exist(user_msin):
+@app.route('/users/exists/<string:delegate_address>')
+def does_user_exist(delegate_address):
     """
-    Checks whether a user is registered.
+    Checks whether a user is registered with a server.
     """
-    users = users_collection.find({'validity.sin': user_msin})
+    users = users_collection.find({'bitcoin.delegate_address': delegate_address})
     return str(users.count() > 0)
 
 @app.route('/users/<string:user_id>')
