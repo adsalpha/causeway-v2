@@ -296,6 +296,13 @@ def users():
         users_to_return.append(user)
     return query_result(users_to_return, 'users')
 
+@app.route('/users/exists/<string:user_msin>')
+def does_user_exist(user_msin):
+    """
+    Checks whether a user is registered.
+    """
+    users = users_collection.find({'validity.sin': user_msin})
+    return str(users.count() > 0)
 
 @app.route('/users/<string:user_id>')
 def user_by_id(user_id):
