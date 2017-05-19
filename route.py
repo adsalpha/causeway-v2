@@ -324,7 +324,6 @@ def user_awarded_jobs(user_id):
             jobs_to_return.append(job)
     return query_result(jobs_to_return, 'jobs')
 
-
 @app.route('/users/<string:user_id>/jobs/delivered')
 def user_delivered_jobs(user_id):
     """
@@ -350,6 +349,23 @@ def user_finished_jobs(user_id):
             jobs_to_return.append(job)
     return query_result(jobs_to_return, 'jobs')
 
+@app.route('/users/by_pubkey/<string:user_public_key>/jobs/active')
+def user_active_jobs_by_public_key(user_public_key):
+    """
+    Active jobs a user is involved in by public key.
+    """
+    jobs_to_return = []
+    for job in jobs_collection.find({}, {'_id': False}):
+        # How to filter for jobs as creator / mediator with only name / contact?
+        is_user_worker = job['worker']['public_key'] == user_public_key
+        is_user_creator = False
+        is_user_mediator = False
+        is_user_involved = is_user_mediator or is_user_creator or is_user_worker
+        is_job_complete = 'delivery_accepted' in job or 'dispute' in job
+        is_job_awarded = 'offer' in job
+        if is_user_involved and not is_job_complete and is_job_awarded:
+            jobs_to_return.append(job)
+    return jobs_to_return
 
 if __name__ == '__main__':
     app.run()
