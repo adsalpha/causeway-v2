@@ -361,11 +361,11 @@ def user_active_jobs_by_public_key(user_public_key):
         is_user_creator = False
         is_user_mediator = False
         is_user_involved = is_user_mediator or is_user_creator or is_user_worker
-        is_job_complete = 'delivery_accepted' in job or 'dispute' in job
+        is_job_complete = 'delivery_accepted' in job or ('dispute' in job and 'resolution' in job['dispute'])
         is_job_awarded = 'offer' in job
         if is_user_involved and not is_job_complete and is_job_awarded:
             jobs_to_return.append(job)
-    return jobs_to_return
+    return query_result(jobs_to_return, 'jobs')
 
 if __name__ == '__main__':
     app.run()
