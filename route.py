@@ -84,6 +84,17 @@ def jobs():
             jobs_to_return.append(job)
     return query_result(jobs_to_return, 'jobs')
 
+@app.route('/jobs/open')
+def open_jobs():
+    """
+    Open jobs registered with this server.
+    Returns an error if no jobs are available.
+    """
+    jobs_to_return = []
+    for job in jobs_collection.find({}, {'_id': False}):
+        if job['time']['expires_at'] >= time.time() and not 'offer' in job:
+            jobs_to_return.append(job)
+    return query_result(jobs_to_return, 'jobs')
 
 @app.route('/jobs/<string:job_id>')
 def job_by_id(job_id):
