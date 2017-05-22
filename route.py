@@ -368,7 +368,7 @@ def user_active_jobs_by_public_key(user_public_key):
     jobs_to_return = []
     for job in jobs_collection.find({}, {'_id': False}):
         # How to filter for jobs as creator / mediator with only name / contact?
-        is_user_worker = job['worker']['public_key'] == user_public_key
+        is_user_worker = 'worker' in job and job['worker']['public_key'] == user_public_key
         is_user_creator = False
         is_user_mediator = False
         is_user_involved = is_user_mediator or is_user_creator or is_user_worker
