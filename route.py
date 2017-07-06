@@ -165,6 +165,7 @@ def create_offer_for_job(job_id):
         return error(errors)
 
 
+# TODO - Merge ^ with this
 @app.route('/jobs/<string:job_id>/offer/<string:bid_id>', methods = ['GET', 'POST'])
 def offer(job_id, bid_id):
     if bid_id is None:
@@ -304,44 +305,6 @@ def user_by_id(user_id):
     """
     user = jobs_collection.find({'contact': {'id': user_id}}, {'_id': False})
     return query_result(user, 'user')
-
-
-@app.route('/users/<string:user_id>/jobs/awarded')
-def user_awarded_jobs(user_id):
-    """
-    Jobs awarded to a user.
-    """
-    jobs_to_return = []
-    for job in jobs_collection.find({}, {'_id': False}):
-        if job['worker']['id'] == user_id:
-            jobs_to_return.append(job)
-    return query_result(jobs_to_return, 'jobs')
-
-
-@app.route('/users/<string:user_id>/jobs/delivered')
-def user_delivered_jobs(user_id):
-    """
-    Jobs for which a user submitted a delivery.
-    """
-    jobs_to_return = []
-    for job in jobs_collection.find({}, {'_id': False}):
-        if job['worker']['id'] == user_id and 'deliveries' in job:
-            jobs_to_return.append(job)
-    return query_result(jobs_to_return, 'jobs')
-
-
-@app.route('/users/<string:user_id>/jobs/finished')
-def user_finished_jobs(user_id):
-    """
-    Jobs accomplished by a user.
-    """
-    jobs_to_return = []
-    for job in jobs_collection.find({}, {'_id': False}):
-        if job['worker']['id'] == user_id and \
-                ('delivery_accepted' in job or
-                     ('dispute' in job and 'resolution' in job['dispute'])):
-            jobs_to_return.append(job)
-    return query_result(jobs_to_return, 'jobs')
 
 
 if __name__ == '__main__':
