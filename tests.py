@@ -138,8 +138,6 @@ test_user_3['validity']['signature'] = SignMessage(test_user_1['bitcoin']['deleg
 test_user_3['validity']['signature_address'] = test_user_1['bitcoin']['delegate']['address']
 
 
-
-
 # JOB
 
 
