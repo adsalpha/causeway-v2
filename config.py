@@ -11,7 +11,7 @@ free_data = 500
 # Database
 
 
-db_name = 'rein_causeway'
+db_name = 'causeway-v2-test'
 jobs_collection = 'jobs'
 users_collection = 'users'
 requests_collection = 'requests'

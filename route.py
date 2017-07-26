@@ -84,6 +84,17 @@ def jobs():
             jobs_to_return.append(job)
     return query_result(jobs_to_return, 'jobs')
 
+@app.route('/jobs/open')
+def open_jobs():
+    """
+    Open jobs registered with this server.
+    Returns an error if no jobs are available.
+    """
+    jobs_to_return = []
+    for job in jobs_collection.find({}, {'_id': False}):
+        if job['time']['expires_at'] >= time.time() and not 'offer' in job:
+            jobs_to_return.append(job)
+    return query_result(jobs_to_return, 'jobs')
 
 @app.route('/jobs/<string:job_id>')
 def job_by_id(job_id):
@@ -297,6 +308,13 @@ def users():
         users_to_return.append(user)
     return query_result(users_to_return, 'users')
 
+@app.route('/users/exists/<string:delegate_address>')
+def does_user_exist(delegate_address):
+    """
+    Checks whether a user is registered with a server.
+    """
+    users = users_collection.find({'bitcoin.delegate_address': delegate_address})
+    return str(users.count() > 0)
 
 @app.route('/users/<string:user_id>')
 def user_by_id(user_id):
@@ -306,6 +324,23 @@ def user_by_id(user_id):
     user = jobs_collection.find({'contact': {'id': user_id}}, {'_id': False})
     return query_result(user, 'user')
 
+@app.route('/users/by_pubkey/<string:user_public_key>/jobs/active')
+def user_active_jobs_by_public_key(user_public_key):
+    """
+    Active jobs a user is involved in by public key.
+    """
+    jobs_to_return = []
+    for job in jobs_collection.find({}, {'_id': False}):
+        # How to filter for jobs as creator / mediator with only name / contact?
+        is_user_worker = 'worker' in job and job['worker']['public_key'] == user_public_key
+        is_user_creator = False
+        is_user_mediator = False
+        is_user_involved = is_user_mediator or is_user_creator or is_user_worker
+        is_job_complete = 'delivery_accepted' in job or ('dispute' in job and 'resolution' in job['dispute'])
+        is_job_awarded = 'offer' in job
+        if is_user_involved and not is_job_complete and is_job_awarded:
+            jobs_to_return.append(job)
+    return query_result(jobs_to_return, 'jobs')
 
 if __name__ == '__main__':
     app.run()
